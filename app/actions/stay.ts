@@ -61,7 +61,10 @@ export async function createBooking(input: {
       amountReceived: input.amountReceived,
     };
     const errors = validateBooking(draft, prop.capacity);
-    if (Object.keys(errors).length) return { ok: false, error: Object.values(errors)[0] };
+    const firstError = Object.values(errors)[0];
+    if (firstError !== undefined) {
+      return { ok: false, error: firstError };
+    }
 
     // Overlap check via the shared, tested predicate — see findConflict.
     if (await findConflict(input.propertyId, input.checkinDate, input.checkoutDate))
@@ -163,7 +166,10 @@ export async function updateBooking(bookingId: string, input: {
     // input field; it's meaningless here since amountReceived was hardcoded to 0 above just to
     // satisfy that function's signature. The real, edit-specific rule is enforced next instead —
     // this used to be deleted with nothing put in its place, which is the payment-edit bug.
-    if (Object.keys(errors).length) return { ok: false, error: Object.values(errors)[0] };
+    const firstError = Object.values(errors)[0];
+    if (firstError !== undefined) {
+      return { ok: false, error: firstError };
+    }
 
     const { data: pays } = await sb.from('payments').select('amount').eq('booking_id', bookingId);
     const receivedSoFar = (pays ?? []).reduce((a, p) => a + Number(p.amount), 0);

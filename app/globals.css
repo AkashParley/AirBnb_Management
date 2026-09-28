@@ -1,0 +1,16 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+
+@layer base {
+  html { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+  body {
+    @apply bg-ivory-50 text-ink text-body antialiased dark:bg-night-50 dark:text-inkD;
+    font-feature-settings: "tnum" 0;
+  }
+  h1, h2, h3 { @apply font-semibold tracking-tight; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-ink dark:outline-inkD; }
+  ::selection { @apply bg-state-infoBg dark:bg-stateD-infoBg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

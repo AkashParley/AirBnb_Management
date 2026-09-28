@@ -104,7 +104,13 @@ export function BookingSheet({ mode, bookingId, date, propertyId, properties, on
   const selectedProperty = properties.find(p => p.id === form.propertyId);
 
   const submit = () => start(async () => {
-    if (Object.keys(errors).length) { setError(Object.values(errors)[0]); return; }
+    if (Object.keys(errors).length) {
+      const firstError = Object.values(errors)[0];
+      if (firstError !== undefined) {
+        setError(firstError);
+      }
+      return;
+    }
     if (totalError) { setError(totalError); return; }
     const payload = {
       propertyId: form.propertyId, guestName: form.guestName.trim(), guestPhone: form.guestPhone || undefined,

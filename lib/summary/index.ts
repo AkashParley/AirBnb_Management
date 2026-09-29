@@ -19,9 +19,10 @@ export interface SummaryData {
 const STATUS_LABEL: Record<PaymentStatus, string> = { PAID: 'Paid', PARTIAL: 'Partial', PENDING: 'Pending' };
 
 function fmtDate(iso: string): string {
-  const [y, m, d] = iso.split('-').map(Number);
+  const parts = iso.split('-').map(Number);
+  const y = parts[0] ?? 0, m = parts[1] ?? 1, d = parts[2] ?? 1;
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return `${d} ${months[m - 1]} ${y}`;
+  return `${d} ${months[m - 1] ?? ''} ${y}`;
 }
 function fmtTime(hhmm: string): string {
   const [hStr, mStr] = hhmm.split(':');

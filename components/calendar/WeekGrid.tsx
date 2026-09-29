@@ -30,7 +30,7 @@ export function WeekGrid({ day, stays, onOpen }: {
   const colorFor = useMemo(() => {
     const map = new Map<string, string>();
     return (propertyId: string) => {
-      if (!map.has(propertyId)) map.set(propertyId, PALETTE[map.size % PALETTE.length]);
+      if (!map.has(propertyId)) map.set(propertyId, PALETTE[map.size % PALETTE.length]!);
       return map.get(propertyId)!;
     };
   }, [stays]);

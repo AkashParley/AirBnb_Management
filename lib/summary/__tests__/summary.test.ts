@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildWhatsAppSummary, type SummaryData } from '../index';
+import { buildWhatsAppSummary, type SummaryData, type SummaryInventoryRow } from '../index';
 
 const base: SummaryData = {
   guestName: 'Sneha Deshpande', propertyName: 'Riverside Cottage',
@@ -7,8 +7,9 @@ const base: SummaryData = {
   checkinTime: '14:00', checkoutTime: '11:00',
   payment: { total: 20800, received: 12000, remaining: 8800, status: 'PARTIAL' },
 };
-const row = (o: Partial<SummaryData['inventory'] extends (infer R)[] | undefined ? R : never> = {}) => ({
-  itemName: 'Towel', givenQty: 4, returnedQty: 4, condition: 'GOOD' as const, note: null, ...o,
+const row = (o: Partial<SummaryInventoryRow> = {}): SummaryInventoryRow => ({
+  itemName: 'Towel', expectedQty: 4, givenQty: 4, returnedQty: 4,
+  condition: 'GOOD', replacementCost: 0, note: null, ...o,
 });
 
 describe('buildWhatsAppSummary', () => {

@@ -15,7 +15,7 @@ describe('layoutSegments — checkout as exclusive boundary', () => {
   it('A: a one-night stay is a one-day-wide segment', () => {
     const segs = layoutSegments([b('a', '2026-09-21', '2026-09-22')]);
     expect(segs).toHaveLength(1);
-    expect(segs[0].span).toBe(1);
+    expect(segs[0]?.span).toBe(1);
   });
 
   it('B: 21st -> 24th occupies 21/22/23 and terminates at the 24th boundary', () => {
@@ -75,7 +75,8 @@ describe('layoutSegments — checkout as exclusive boundary', () => {
       b('b', '2026-09-16', '2026-09-18'),
       b('c', '2026-09-16', '2026-09-18'),
     ]);
-    const monday = segs[0].weekStart;
-    expect(laneCount(segs, monday)).toBe(3);
+    const first = segs[0];
+    if (!first) throw new Error('expected at least one segment');
+    expect(laneCount(segs, first.weekStart)).toBe(3);
   });
 });

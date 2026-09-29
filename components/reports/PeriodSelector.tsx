@@ -1,4 +1,5 @@
 'use client';
+import type { Route } from 'next';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useState, useMemo } from 'react';
 import {
@@ -49,7 +50,7 @@ export function PeriodSelector({ from, to }: { from: string; to: string }) {
   const apply = (f: string, t: string) => {
     const next = new URLSearchParams(params.toString());
     next.set('from', f); next.set('to', t);
-    router.push(`${pathname}?${next.toString()}`);
+    router.push(`${pathname}?${next.toString()}` as Route);
   };
 
   return (

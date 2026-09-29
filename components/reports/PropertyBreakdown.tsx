@@ -1,7 +1,7 @@
 import type { ReportsData } from '@/lib/queries/operations';
 import { Money, EmptyState, SectionLabel } from '@/components/ui/primitives';
 
-/** Answers "which properties are being used most" — sorted by revenue, plain list, no chart-per-row. */
+/** Sorted-by-revenue property list, using ReportsData['perProperty'] as-is (occupiedNights, not `nights`). */
 export function PropertyBreakdown({ rows }: { rows: ReportsData['perProperty'] }) {
   const active = rows.filter(r => r.bookings > 0);
   return (
@@ -16,7 +16,7 @@ export function PropertyBreakdown({ rows }: { rows: ReportsData['perProperty'] }
               <span>{r.propertyName}</span>
               <span className="flex items-center gap-3 text-meta text-ink-muted dark:text-inkD-muted tabular-nums">
                 <span>{r.bookings} booking{r.bookings !== 1 ? 's' : ''}</span>
-                <span>{r.nights} night{r.nights !== 1 ? 's' : ''}</span>
+                <span>{r.occupiedNights} night{r.occupiedNights !== 1 ? 's' : ''}</span>
                 <Money value={r.revenue} />
               </span>
             </li>

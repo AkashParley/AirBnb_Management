@@ -41,6 +41,11 @@ export function RevenueChart({ revenue, collected, granularity }: {
   if (!revenue.length) return <EmptyState title="No revenue in this period" body="Bookings with a check-in date in this range will appear here." />;
 
   const labelEvery = Math.max(1, Math.ceil(revenue.length / 8));
+  // noUncheckedIndexedAccess: indexed reads are `T | undefined`, so resolve the hovered
+  // bucket once, up front, instead of re-indexing (and asserting) at each use below.
+  const hoverPoint = hover !== null ? points[hover] : undefined;
+  const hoverRevenue = hover !== null ? revenue[hover] : undefined;
+  const hoverCollected = hover !== null ? collected[hover] : undefined;
   const fmtLabel = (label: string) => granularity === 'day' ? format(new Date(label), 'd MMM') : format(new Date(label + '-01'), 'MMM yyyy');
   const totalOutstanding = revenue.reduce((a, s, i) => a + Math.max(0, s.value - (collected[i]?.value ?? 0)), 0);
 
@@ -58,8 +63,8 @@ export function RevenueChart({ revenue, collected, granularity }: {
           <span className="inline-block w-3 h-2.5 bg-state-attend dark:bg-stateD-attend opacity-25 rounded-[1px]" /> Outstanding
         </span>
         <span className="ml-auto tabular-nums font-medium">
-          {hover !== null
-            ? `${fmtLabel(revenue[hover].label)} · ${formatINRCompact(revenue[hover].value)} rev · ${formatINRCompact(collected[hover]?.value ?? 0)} collected`
+          {hoverRevenue
+            ? `${fmtLabel(hoverRevenue.label)} · ${formatINRCompact(hoverRevenue.value)} rev · ${formatINRCompact(hoverCollected?.value ?? 0)} collected`
             : totalOutstanding > 0 ? `${formatINRCompact(totalOutstanding)} outstanding across this period` : 'Fully collected this period'}
         </span>
       </div>
@@ -74,15 +79,17 @@ export function RevenueChart({ revenue, collected, granularity }: {
           <rect key={i} x={p.x - (W / points.length) / 2} y={PAD_T} width={W / points.length} height={H - PAD_T - PAD_B}
             fill="transparent" onMouseEnter={() => setHover(i)} />
         ))}
-        {hover !== null && <line x1={points[hover].x} x2={points[hover].x} y1={PAD_T} y2={H - PAD_B} stroke="currentColor" strokeOpacity="0.15" />}
-        {revenue.map((s, i) => (
-          i % labelEvery === 0 && (
-            <text key={s.label} x={points[i].x} y={H - 8} textAnchor="middle"
+        {hoverPoint && <line x1={hoverPoint.x} x2={hoverPoint.x} y1={PAD_T} y2={H - PAD_B} stroke="currentColor" strokeOpacity="0.15" />}
+        {revenue.map((s, i) => {
+          const p = points[i];
+          if (!p || i % labelEvery !== 0) return null;
+          return (
+            <text key={s.label} x={p.x} y={H - 8} textAnchor="middle"
               className="fill-ink-faint dark:fill-inkD-faint" style={{ font: '10px inherit' }}>
               {fmtLabel(s.label)}
             </text>
-          )
-        ))}
+          );
+        })}
       </svg>
     </div>
   );

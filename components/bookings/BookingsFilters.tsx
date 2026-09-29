@@ -16,7 +16,7 @@ export function BookingsFilters({ properties }: { properties: { id: string; name
     const next = new URLSearchParams(params.toString());
     for (const [k, v] of Object.entries(patch)) v === null ? next.delete(k) : next.set(k, v);
     next.delete('page');
-    start(() => router.push(`${pathname}?${next.toString()}`));
+    start(() => router.push(`${pathname}?${next.toString()}` as import('next').Route));
   };
 
   return (

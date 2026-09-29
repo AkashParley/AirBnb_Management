@@ -15,7 +15,7 @@ export function MonthNav({ month }: { month: Date }) {
   const go = (d: Date) => {
     const next = new URLSearchParams(params.toString());
     next.set('d', format(d, 'yyyy-MM-dd'));
-    router.push(`${pathname}?${next.toString()}`);
+    router.push(`${pathname}?${next.toString()}` as import('next').Route);
   };
 
   return (

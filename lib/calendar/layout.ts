@@ -71,8 +71,9 @@ export function layoutSegments<T extends DateSpan>(items: T[]): Segment<T>[] {
     for (const seg of weekSegs) {
       const segEndCol = seg.startCol + seg.span - 1;
       let lane = lanes.findIndex(l => l.endCol < seg.startCol);
-      if (lane === -1) { lane = lanes.length; lanes.push({ endCol: segEndCol }); }
-      else lanes[lane].endCol = segEndCol;
+      const reusable = lane === -1 ? undefined : lanes[lane];
+      if (reusable) { reusable.endCol = segEndCol; }
+      else { lane = lanes.length; lanes.push({ endCol: segEndCol }); }
       seg.lane = lane;
     }
   }

@@ -37,7 +37,7 @@ export function Sidebar() {
       </span>
     );
     return built ? (
-      <Link key={href} href={href}
+      <Link key={href} href={href as import('next').Route}
         className={`block rounded-sm transition-colors ${active ? 'bg-ivory-100 dark:bg-night-200' : 'hover:bg-ivory-100/60 dark:hover:bg-night-200/60'}`}>
         {inner}
       </Link>

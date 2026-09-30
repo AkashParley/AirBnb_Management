@@ -9,8 +9,8 @@ import { CalendarDays, Building2, ClipboardList, BarChart3, Settings } from 'luc
  * exactly where it did (Stay Workspace, Property page), just not as separate top-level
  * pages. No backend/table was touched to make this true; this is a navigation-only change.
  */
-const BUILT = new Set(['/calendar', '/bookings', '/properties', '/reports']);
-const PRIMARY = [
+export const BUILT = new Set(['/calendar', '/bookings', '/properties', '/reports']);
+export const PRIMARY = [
   { href: '/calendar', label: 'Calendar', Icon: CalendarDays },
   { href: '/properties', label: 'Properties', Icon: Building2 },
   { href: '/bookings', label: 'Bookings', Icon: ClipboardList },
@@ -37,7 +37,7 @@ export function Sidebar() {
       </span>
     );
     return built ? (
-      <Link key={href} href={href as import('next').Route}
+      <Link key={href} href={href}
         className={`block rounded-sm transition-colors ${active ? 'bg-ivory-100 dark:bg-night-200' : 'hover:bg-ivory-100/60 dark:hover:bg-night-200/60'}`}>
         {inner}
       </Link>

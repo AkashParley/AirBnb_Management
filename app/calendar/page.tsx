@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { loadMonthOverview, loadAttention } from '@/lib/queries/operations';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav, MOBILE_NAV_CLEARANCE } from '@/components/layout/MobileBottomNav';
 import { Topbar } from '@/components/layout/Topbar';
 import { Skeleton } from '@/components/ui/primitives';
 import { CalendarShell } from '@/components/calendar/CalendarShell';
@@ -20,13 +21,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ d
       <Sidebar />
       <div className="flex-1 min-w-0">
         <Topbar />
-        <div className="p-gutter">
+        <div className={`p-gutter ${MOBILE_NAV_CLEARANCE}`}>
           <h1 className="text-title font-semibold mb-1">{format(new Date(day), 'MMMM yyyy')}</h1>
           <Suspense fallback={<Skeleton rows={4} />}>
             <Body day={day} monthFrom={monthFrom} monthTo={monthTo} />
           </Suspense>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

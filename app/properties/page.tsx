@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { listProperties } from '@/lib/queries/operations';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav, MOBILE_NAV_CLEARANCE } from '@/components/layout/MobileBottomNav';
 import { Topbar } from '@/components/layout/Topbar';
 import { Skeleton, ErrorState, StatusTag } from '@/components/ui/primitives';
 import { AddPropertyButton } from '@/components/properties/AddPropertyButton';
@@ -15,7 +16,7 @@ export default function PropertiesPage() {
       <Sidebar />
       <div className="flex-1 min-w-0">
         <Topbar />
-        <div className="p-gutter">
+        <div className={`p-gutter ${MOBILE_NAV_CLEARANCE}`}>
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-title font-semibold">Properties</h1>
             <AddPropertyButton />
@@ -23,6 +24,7 @@ export default function PropertiesPage() {
           <Suspense fallback={<Skeleton rows={4} />}><List /></Suspense>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

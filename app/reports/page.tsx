@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { format, startOfMonth } from 'date-fns';
 import { fetchReports } from '@/app/actions/read';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav, MOBILE_NAV_CLEARANCE } from '@/components/layout/MobileBottomNav';
 import { Topbar } from '@/components/layout/Topbar';
 import { Skeleton, ErrorState } from '@/components/ui/primitives';
 import { PeriodSelector } from '@/components/reports/PeriodSelector';
@@ -33,12 +34,13 @@ export default function ReportsPage({ searchParams }: { searchParams: Promise<SP
       <Sidebar />
       <div className="flex-1 min-w-0">
         <Topbar />
-        <div className="p-gutter">
+        <div className={`p-gutter ${MOBILE_NAV_CLEARANCE}`}>
           <Suspense fallback={<div className="mt-2"><Skeleton rows={6} /></div>}>
             <Body searchParams={searchParams} />
           </Suspense>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

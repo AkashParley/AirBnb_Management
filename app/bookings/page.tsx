@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { listBookings, listProperties } from '@/lib/queries/operations';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav, MOBILE_NAV_CLEARANCE } from '@/components/layout/MobileBottomNav';
 import { Topbar } from '@/components/layout/Topbar';
 import { Skeleton, ErrorState } from '@/components/ui/primitives';
 import { BookingsFilters } from '@/components/bookings/BookingsFilters';
@@ -18,12 +19,13 @@ export default function BookingsPage({ searchParams }: { searchParams: Promise<S
       <Sidebar />
       <div className="flex-1 min-w-0">
         <Topbar />
-        <div className="p-gutter">
+        <div className={`p-gutter ${MOBILE_NAV_CLEARANCE}`}>
           <Suspense fallback={<div className="mt-4"><Skeleton rows={6} /></div>}>
             <Body searchParams={searchParams} />
           </Suspense>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

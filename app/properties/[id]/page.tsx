@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { fetchPropertyPage } from '@/app/actions/read';
 import { listProperties } from '@/lib/queries/operations';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav, MOBILE_NAV_CLEARANCE } from '@/components/layout/MobileBottomNav';
 import { Topbar } from '@/components/layout/Topbar';
 import { Skeleton, ErrorState, StatusTag } from '@/components/ui/primitives';
 import { PropertyDetailClient } from '@/components/properties/PropertyDetailClient';
@@ -15,12 +16,13 @@ export default function PropertyPage({ params }: { params: Promise<{ id: string 
       <Sidebar />
       <div className="flex-1 min-w-0">
         <Topbar />
-        <div className="p-gutter">
+        <div className={`p-gutter ${MOBILE_NAV_CLEARANCE}`}>
           <Suspense fallback={<Skeleton rows={6} />}>
             <Body params={params} />
           </Suspense>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }
